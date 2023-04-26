@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import './Header.css'; // Importar o arquivo CSS
+import './Header.css'; 
 
 function Header() {
   return (

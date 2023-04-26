@@ -1,0 +1,35 @@
+.points-of-interest {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 50px;
+  }
+  
+  .point {
+    width: 400px;
+    margin: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  .point:hover {
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+  }
+  
+  .point img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .point .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px;
+  }
+  
+  .point .description {
+    font-size: 18px;
+    margin: 20px;
+  }
+  

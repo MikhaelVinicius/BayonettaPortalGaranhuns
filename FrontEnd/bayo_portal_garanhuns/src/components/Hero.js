@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import './Hero.css'; // Importar o arquivo CSS
 
 function Hero() {
   return (

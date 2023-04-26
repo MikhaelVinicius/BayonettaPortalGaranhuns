@@ -1,4 +1,6 @@
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import './PointsOfInterest.css';
+
 
 function PointsOfInterest() {
     return (
