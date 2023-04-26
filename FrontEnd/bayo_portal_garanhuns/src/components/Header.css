@@ -1,0 +1,22 @@
+/* Header.css */
+
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar-brand {
+    color: #333;
+    font-weight: 600;
+  }
+  
+  .nav-link {
+    color: #333;
+    font-weight: 500;
+    margin-right: 1rem;
+  }
+  
+  .nav-link:hover {
+    color: #dc3545;
+  }
+  
