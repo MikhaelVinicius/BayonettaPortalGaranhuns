@@ -1,3 +1,8 @@
+.navbar-nav {
+  background-color: #184d47;
+}
+
+
 .navbar {
   background-color: #8B0000;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -5,6 +10,21 @@
 
 .navbar-brand {
   color: #fff;
+  font-weight: 600;
+}
+
+.navbar-nav {
+  background-color: #184d47;
+}
+
+
+.navbar {
+  background-color: #721c24;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  color: #184d47;
   font-weight: 600;
 }
 
@@ -18,7 +38,13 @@
   color: #dc3545;
 }
 
-.brand-logo {
-  height: 50px;
-  margin-right: 10px;
+.navbar-nav {
+  background-color: #184d47;
 }
+
+
+.brand-logo {
+  height: 100px;
+  margin-right: 20px;
+}
+

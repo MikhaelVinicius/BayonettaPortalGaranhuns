@@ -2,12 +2,14 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 import './Header.css';
 import brasao from '../assents/brasao.png';
 
+
+
 function Header() {
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" className="navbar">
+    <Navbar bg="light" expand="lg" className="navbar">
       <Container>
         <Navbar.Brand href="#" className="navbar-brand">
-          <img src={brasao} alt="Brasão de Garanhuns" className="brand-logo" />
+        <img src={brasao} alt="Brasão de Garanhuns" className="brand-logo" />
           Portal de Turismo de Garanhuns
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbar-nav" />
@@ -20,7 +22,7 @@ function Header() {
               Restaurantes
             </Nav.Link>
             <Nav.Link href="#" className="nav-link">
-              Hotéis/Pousadas
+              Hoteis/Pousadas
             </Nav.Link>
             <Nav.Link href="#" className="nav-link">
               Eventos
