@@ -1,15 +1,28 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+
+import jwt
 import os
-import json
-from database.models import PontoTuristico
-
-
-
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://Bayonetta:$Mika2023@127.0.0.1/bayo_portal_garanhuns_bd'
-db = SQLAlchemy(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'mysql://Bayonetta:$Mika2023@127.0.0.1/bayo_portal_garanhuns_bd')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'chave-secreta')
+
+Base = SQLAlchemy(app)
+
+def token_required(f):
+    def wrapper(*args, **kwargs):
+        token = request.headers.get('Authorization')
+        if not token:
+            return jsonify({'mensagem': 'Token não fornecido!'}), 401
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'])
+            usuario_id = data['id']
+        except:
+            return jsonify({'mensagem': 'Token inválido ou expirado!'}), 401
+        return f(usuario_id, *args, **kwargs)
+    wrapper.__name__ = f.__name__
+    return wrapper
 
 
 @app.route('/pontos_turisticos', methods=['GET'])
@@ -28,30 +41,17 @@ def obter_pontos_turisticos():
 
 @app.route('/pontos_turisticos', methods=['POST'])
 def cadastrar_ponto_turistico():
-    nome = request.json['nome']
-    descricao = request.json['descricao']
-    localizacao = request.json['localizacao']
-    imagem_url = request.json['imagem_url']
-    
-    novo_ponto_turistico = PontoTuristico(nome=nome, descricao=descricao, localizacao=localizacao, imagem_url=imagem_url)
-    db.session.add(novo_ponto_turistico)
-    db.session.commit()
-    
-    return jsonify({'mensagem': 'Ponto turístico cadastrado com sucesso!'})
+   nome = request.json.get('nome', '')
+   descricao = request.json.get('descricao', '')
+   localizacao = request.json.get('localizacao', '')
+   imagem_url = request.json.get('imagem_url', '')
 
-
-@app.route('/pontos_turisticos', methods=['POST'])
-def cadastrar_ponto_turistico():
-    nome = request.json['nome']
-    descricao = request.json['descricao']
-    localizacao = request.json['localizacao']
-    imagem_url = request.json['imagem_url']
+   novo_ponto_turistico = PontoTuristico(nome=nome, descricao=descricao, 
+   localizacao=localizacao, imagem_url=imagem_url)
+   Base.session.add(novo_ponto_turistico)
+   Base.session.commit()
     
-    novo_ponto_turistico = PontoTuristico(nome=nome, descricao=descricao, localizacao=localizacao, imagem_url=imagem_url)
-    db.session.add(novo_ponto_turistico)
-    db.session.commit()
-    
-    return jsonify({'mensagem': 'Ponto turístico cadastrado com sucesso!'})
+   return jsonify({'mensagem': 'Ponto turístico cadastrado com sucesso!'})
 
 
 @app.route('/login', methods=['POST'])
@@ -68,13 +68,21 @@ def login():
     
     return jsonify({'token': token.decode('utf-8')})
 
+
 @app.route('/pontos_turisticos/<int:id>/comentarios', methods=['POST'])
 @token_required
-def cadastrar_comentario(id):
+def cadastrar_comentario(usuario_id, id):
     ponto_turistico = PontoTuristico.query.get_or_404(id)
     
-    comentario = Comentario(texto=request.json['texto'], usuario_id=g.usuario_id, ponto_turistico_id=id)
-    db.session.add(comentario)
-    db.session.commit()
+    comentario = Comentario(texto=request.json['texto'], usuario_id=usuario_id, ponto_turistico_id=id)
+    Base.session.add(comentario)
+    Base.session.commit()
     
     return jsonify({'mensagem': 'Comentário cadastrado com sucesso!'})
+
+@app.route('/')
+def index():
+    return 'Hello, world!'
+
+if __name__ == '__main__':
+    app.run()
