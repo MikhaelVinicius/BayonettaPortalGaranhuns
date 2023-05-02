@@ -1,58 +1,41 @@
-from app import Base
-from datetime import datetime
-
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
-from database.database import Base
 
-class PontoTuristico(Base):
-    __tablename__ = "ponto_turistico"
-    id = Column(Integer, primary_key=True, index=True)
-    nome = Column(String(255), unique=True, index=True)
-    descricao = Column(String(500))
-    comentarios = relationship("Comentario", back_populates="ponto_turistico")
+db = SQLAlchemy()
 
-    def __init__(self, nome, descricao):
-        self.nome = nome
-        self.descricao = descricao
+# definição do modelo de dados para pontos turísticos
+class PontoTuristico(db.Model):
+    __tablename__ = 'pontos_turisticos'
 
-
-
-Base = SQLAlchemy()
-
-class Exemplo(Base.Model):
-    id = Base.Column(Base.Integer, primary_key=True)
-    nome = Base.Column(Base.String(50))
-
-
-
-
-class Usuario(Base.Model):
-    __tablename__ = 'usuarios'
-
-    id = Base.Column(Base.Integer, primary_key=True)
-    nome = Base.Column(Base.String(100), nullable=False)
-    email = Base.Column(Base.String(100), nullable=False, unique=True)
-    senha = Base.Column(Base.String(255), nullable=False)
-
-    def verificar_senha(self, senha):
-        return check_password_hash(self.senha, senha)
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(255), nullable=False)
+    descricao = db.Column(db.Text)
+    localizacao = db.Column(db.String(255))
+    imagem_url = db.Column(db.String(255))
 
     def __repr__(self):
-        return '<Usuario %r>' % self.nome
+        return '<PontoTuristico %r>' % self.nome
 
-class Comentario(Base.Model):
+
+class Comentarios(db.Model):
     __tablename__ = 'comentarios'
 
-    id = Base.Column(Base.Integer, primary_key=True)
-    texto = Base.Column(Base.Text, nullable=False)
-    data = Base.Column(Base.DateTime, nullable=False, default=datetime.utcnow)
-    usuario_id = Base.Column(Base.Integer, Base.ForeignKey('usuarios.id'), nullable=False)
-    ponto_turistico_id = Base.Column(Base.Integer, Base.ForeignKey('pontos_turisticos.id'), nullable=False)
-
-    usuario = Base.relationship('Usuario', backref=Base.backref('comentarios', lazy=True))
-    ponto_turistico = Base.relationship('PontoTuristico', backref=Base.backref('comentarios', lazy=True))
-
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), nullable=False)
+    comentario = db.Column(db.Text, nullable=False)
+    data_comentario = db.Column(db.TIMESTAMP, nullable=False, server_default=db.func.current_timestamp())
+    
     def __repr__(self):
-        return '<Comentario %r>' % self.texto
+        return '<comentarios %r>' % self.nome
+    
+    
+class Administradores(db.Model):
+    __tablename__ = 'administradores'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(50), nullable=False)
+    senha = db.Column(db.String(255), nullable=False)    
+    
+    def __repr__(self):
+        return '<administradores %r>' % self.nome

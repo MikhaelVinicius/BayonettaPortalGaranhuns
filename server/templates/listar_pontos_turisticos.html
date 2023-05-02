@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Pontos Turísticos</title>
+  </head>
+  <body>
+    <h1>Pontos Turísticos</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Descrição</th>
+          <th>Localização</th>
+          <th>Imagem</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ponto_turistico in pontos_turisticos %}
+        <tr>
+          <td>{{ ponto_turistico.nome }}</td>
+          <td>{{ ponto_turistico.descricao }}</td>
+          <td>{{ ponto_turistico.localizacao }}</td>
+          <td><img src="{{ ponto_turistico.imagem_url }}" alt="{{ ponto_turistico.nome }}"></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

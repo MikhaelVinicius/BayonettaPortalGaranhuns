@@ -1,88 +1,96 @@
-from flask import Flask, request, jsonify
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-
-import jwt
-import os
-
+import config
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'mysql://Bayonetta:$Mika2023@127.0.0.1/bayo_portal_garanhuns_bd')
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'chave-secreta')
-
-Base = SQLAlchemy(app)
-
-def token_required(f):
-    def wrapper(*args, **kwargs):
-        token = request.headers.get('Authorization')
-        if not token:
-            return jsonify({'mensagem': 'Token não fornecido!'}), 401
-        try:
-            data = jwt.decode(token, app.config['SECRET_KEY'])
-            usuario_id = data['id']
-        except:
-            return jsonify({'mensagem': 'Token inválido ou expirado!'}), 401
-        return f(usuario_id, *args, **kwargs)
-    wrapper.__name__ = f.__name__
-    return wrapper
 
 
-@app.route('/pontos_turisticos', methods=['GET'])
-def obter_pontos_turisticos():
-    pontos_turisticos = PontoTuristico.query.all()
-    resultado = []
-    for ponto_turistico in pontos_turisticos:
-        resultado.append({
-            'id': ponto_turistico.id,
-            'nome': ponto_turistico.nome,
-            'descricao': ponto_turistico.descricao,
-            'localizacao': ponto_turistico.localizacao,
-            'imagem_url': ponto_turistico.imagem_url
-        })
-    return jsonify(resultado)
+app.config.from_object(config)
 
-@app.route('/pontos_turisticos', methods=['POST'])
-def cadastrar_ponto_turistico():
-   nome = request.json.get('nome', '')
-   descricao = request.json.get('descricao', '')
-   localizacao = request.json.get('localizacao', '')
-   imagem_url = request.json.get('imagem_url', '')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://Bayonetta:$Mika2023@127.0.0.1/bayo_portal_garanhuns_bd'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-   novo_ponto_turistico = PontoTuristico(nome=nome, descricao=descricao, 
-   localizacao=localizacao, imagem_url=imagem_url)
-   Base.session.add(novo_ponto_turistico)
-   Base.session.commit()
+db = SQLAlchemy(app)
+
+# definição do modelo de dados para pontos turísticos
+class PontoTuristico(db.Model):
+    __tablename__ = 'pontos_turisticos'
+
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(255), nullable=False)
+    descricao = db.Column(db.Text)
+    localizacao = db.Column(db.String(255))
+    imagem_url = db.Column(db.String(255))
+
+    def __repr__(self):
+        return '<PontoTuristico %r>' % self.nome
+
+
+class Comentarios(db.Model):
+    __tablename__ = 'comentarios'
+
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), nullable=False)
+    comentario = db.Column(db.Text, nullable=False)
+    data_comentario = db.Column(db.TIMESTAMP, nullable=False, server_default=db.func.current_timestamp())
     
-   return jsonify({'mensagem': 'Ponto turístico cadastrado com sucesso!'})
+    def __repr__(self):
+        return '<comentarios %r>' % self.nome
+    
+    
+class Administradores(db.Model):
+    __tablename__ = 'administradores'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(50), nullable=False)
+    senha = db.Column(db.String(255), nullable=False)    
+    
+    def __repr__(self):
+        return '<administradores %r>' % self.nome
 
 
-@app.route('/login', methods=['POST'])
-def login():
-    email = request.json['email']
-    senha = request.json['senha']
-    
-    usuario = Usuario.query.filter_by(email=email).first()
-    
-    if not usuario or not usuario.verificar_senha(senha):
-        return jsonify({'mensagem': 'Email ou senha incorretos!'}), 401
-    
-    token = jwt.encode({'id': usuario.id}, app.config['SECRET_KEY'])
-    
-    return jsonify({'token': token.decode('utf-8')})
-
-
-@app.route('/pontos_turisticos/<int:id>/comentarios', methods=['POST'])
-@token_required
-def cadastrar_comentario(usuario_id, id):
-    ponto_turistico = PontoTuristico.query.get_or_404(id)
-    
-    comentario = Comentario(texto=request.json['texto'], usuario_id=usuario_id, ponto_turistico_id=id)
-    Base.session.add(comentario)
-    Base.session.commit()
-    
-    return jsonify({'mensagem': 'Comentário cadastrado com sucesso!'})
-
+# Rota para exibir todos os pontos turísticos
 @app.route('/')
-def index():
-    return 'Hello, world!'
+def listar_pontos_turisticos():
+    pontos_turisticos = PontoTuristico.query.all()
+    return render_template('listar_pontos_turisticos.html', pontos_turisticos=pontos_turisticos)
+
+
+# Rota para exibir os detalhes de um ponto turístico específico
+@app.route('/ponto_turistico/<int:id>')
+def exibir_ponto_turistico(id):
+    ponto_turistico = PontoTuristico.query.get(id)
+    return render_template('exibir_ponto_turistico.html', ponto_turistico=ponto_turistico)
+
+
+# Rota para exibir todos os comentários
+@app.route('/comentarios')
+def listar_comentarios():
+    comentarios = Comentarios.query.all()
+    return render_template('listar_comentarios.html', comentarios=comentarios)
+
+
+# Rota para exibir os detalhes de um comentário específico
+@app.route('/comentario/<int:id>')
+def exibir_comentario(id):
+    comentario = Comentarios.query.get(id)
+    return render_template('exibir_comentario.html', comentario=comentario)
+
+
+# Rota para exibir todos os administradores
+@app.route('/administradores')
+def listar_administradores():
+    administradores = Administradores.query.all()
+    return render_template('listar_administradores.html', administradores=administradores)
+
+
+# Rota para exibir os detalhes de um administrador específico
+@app.route('/administrador/<int:id>')
+def exibir_administrador(id):
+    administrador = Administradores.query.get(id)
+    return render_template('exibir_administrador.html', administrador=administrador)
+
 
 if __name__ == '__main__':
     app.run()
