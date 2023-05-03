@@ -10,10 +10,7 @@ function App() {
   return (
     <Router>
       <Homepage />
-      <Switch>
-        <Route path="/pontos_turisticos" component={PontoTuristicoList} />
-     
-      </Switch>
+      
     </Router>
   );
 }
