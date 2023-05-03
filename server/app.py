@@ -77,7 +77,7 @@ class Hotel(db.Model):
     phone = db.Column(db.String(20))
     created_at = db.Column(db.TIMESTAMP, server_default='CURRENT_TIMESTAMP', nullable=False)
     updated_at = db.Column(db.TIMESTAMP, server_default='CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP', nullable=False)  
-    
+    imagem_url = db.Column(db.String(255))
     
     def to_dict(self):
         return {
@@ -92,7 +92,8 @@ class Hotel(db.Model):
             'email': self.email,
             'phone': self.phone,
             'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
-            'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+            'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'imagem_url': self.imagem_url
         }
 
 class Comentarios(db.Model):
@@ -333,6 +334,9 @@ def validar_dados_hotel(dados):
     # validar número de telefone
     if not dados.get('phone'):
         erros['phone'] = 'Campo obrigatório.'
+    
+    if not dados.get('imagem_url'):
+        erros['imagem_url'] = "imagem_url"       
 
     return erros
 
@@ -355,7 +359,8 @@ def adicionar_hotel():
         rating=dados_hotel.get('rating', 0.0),
         website=dados_hotel.get('website'),
         email=dados_hotel.get('email'),
-        phone=dados_hotel['phone']
+        phone=dados_hotel['phone'],
+        imagem_url = dados_hotel['imagem_url']
     )
 
     db.session.add(novo_hotel)
@@ -400,7 +405,8 @@ def editar_hotel(id):
     hotel.rating = dados_hotel.get('rating', 0.0)
     hotel.website = dados_hotel.get('website')
     hotel.email = dados_hotel.get('email')
-    hotel.phone = dados_hotel['phone']
+    hotel.phone = dados_hotel['phone'],
+    hotel.imagem_url = dados_hotel['imagem_url']
 
     db.session.commit()
 

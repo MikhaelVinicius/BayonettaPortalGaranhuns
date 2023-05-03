@@ -45,6 +45,7 @@ class Hotel(db.Model):
     phone = db.Column(db.String(20))
     created_at = db.Column(db.TIMESTAMP, server_default='CURRENT_TIMESTAMP', nullable=False)
     updated_at = db.Column(db.TIMESTAMP, server_default='CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP', nullable=False)  
+    imagem_url = db.Column(db.String(255))
     
     def __repr__(self):
         return '<Hotel %r>' % self.nome      

@@ -33,6 +33,7 @@ class Hotel(db):
     __tablename__ = 'hotel'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+    imagem_url = Column(String(255))
     name = Column(String(255), nullable=False)
     address = Column(String(255), nullable=False)
     city = Column(String(255), nullable=False)
@@ -44,6 +45,7 @@ class Hotel(db):
     phone = Column(String(20))
     created_at = Column(TIMESTAMP, server_default='CURRENT_TIMESTAMP', nullable=False)
     updated_at = Column(TIMESTAMP, server_default='CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP', nullable=False)    
+    
 
 
 class Comentarios(db):

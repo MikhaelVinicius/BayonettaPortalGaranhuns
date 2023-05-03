@@ -4,10 +4,12 @@ import './Homepage.css';
 import App from '../App';
 import PontoTuristicoList from './PontoTuristicoList';
 import AtividadeList from './AtividadeList';
+import HotelList from './HotelList';
 
 function Homepage() {
   const pontoTuristicoListRef = useRef(null);
   const atividadeListRef = useRef(null);
+  const hotelListRef = useRef(null);
 
   const scrollToPontoTuristicoList = () => {
     pontoTuristicoListRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -15,6 +17,10 @@ function Homepage() {
 
   const scrollToAtividadeList = () => {
     atividadeListRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToHotelList = () => {
+    hotelListRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -28,7 +34,7 @@ function Homepage() {
           </div>
           <ul className="main-menu">
             <li><Link to="/pontos_turisticos"  onClick={scrollToPontoTuristicoList}>Pontos Turísticos</Link></li>
-            <li><Link to="/hospedagens">Hospedagens</Link></li>
+            <li><Link to="/hospedagens" onClick={scrollToHotelList}>Hospedagens</Link></li>
             <li><Link to="/restaurantes">Restaurantes</Link></li>
             <li><Link to="/atividades" onClick={scrollToAtividadeList}>Atividades</Link></li>
           </ul>
@@ -48,6 +54,11 @@ function Homepage() {
       
       <div ref={atividadeListRef}>
         <AtividadeList />
+      </div>
+
+      
+      <div ref={hotelListRef}>
+        <HotelList />
       </div>
     </div>
   );
