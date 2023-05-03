@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, Text, TIMESTAMP
+from sqlalchemy import create_engine, Column, Integer, String, Text,Float, TIMESTAMP
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from database.models import db, PontoTuristico
@@ -28,6 +28,22 @@ class Atividade(db):
     descricao = Column(Text)
     localizacao = Column(String(255))
     imagem_url = Column(String(255))    
+    
+class Hotel(db):
+    __tablename__ = 'hotel'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(255), nullable=False)
+    address = Column(String(255), nullable=False)
+    city = Column(String(255), nullable=False)
+    state = Column(String(255), nullable=False)
+    country = Column(String(255), nullable=False)
+    rating = Column(Float, default=0.0)
+    website = Column(String(255))
+    email = Column(String(255))
+    phone = Column(String(20))
+    created_at = Column(TIMESTAMP, server_default='CURRENT_TIMESTAMP', nullable=False)
+    updated_at = Column(TIMESTAMP, server_default='CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP', nullable=False)    
 
 
 class Comentarios(db):

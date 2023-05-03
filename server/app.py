@@ -62,7 +62,38 @@ class Atividade(db.Model):
             'imagem_url': self.imagem_url
         }
 
+class Hotel(db.Model):
+    __tablename__ = 'hotel'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(255), nullable=False)
+    address = db.Column(db.String(255), nullable=False)
+    city = db.Column(db.String(255), nullable=False)
+    state = db.Column(db.String(255), nullable=False)
+    country = db.Column(db.String(255), nullable=False)
+    rating = db.Column(db.Float, default=0.0)
+    website = db.Column(db.String(255))
+    email = db.Column(db.String(255))
+    phone = db.Column(db.String(20))
+    created_at = db.Column(db.TIMESTAMP, server_default='CURRENT_TIMESTAMP', nullable=False)
+    updated_at = db.Column(db.TIMESTAMP, server_default='CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP', nullable=False)  
+    
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'address': self.address,
+            'city': self.city,
+            'state': self.state,
+            'country': self.country,
+            'rating': self.rating,
+            'website': self.website,
+            'email': self.email,
+            'phone': self.phone,
+            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        }
 
 class Comentarios(db.Model):
     __tablename__ = 'comentarios'
@@ -269,6 +300,111 @@ def editar_atividade(id):
    return jsonify({'mensagem': 'Atividade atualizada com sucesso!'})
 
 
+##### Hotel
+
+@app.route('/api/hoteis')
+def listar_hoteis_json():
+    hoteis = Hotel.query.all()
+    return jsonify([hotel.to_dict() for hotel in hoteis])
+
+def validar_dados_hotel(dados):
+    erros = {}
+
+    # validar nome
+    if not dados.get('name'):
+        erros['name'] = 'Campo obrigatório.'
+
+    # validar endereço
+    if not dados.get('address'):
+        erros['address'] = 'Campo obrigatório.'
+
+    # validar cidade
+    if not dados.get('city'):
+        erros['city'] = 'Campo obrigatório.'
+
+    # validar estado
+    if not dados.get('state'):
+        erros['state'] = 'Campo obrigatório.'
+
+    # validar país
+    if not dados.get('country'):
+        erros['country'] = 'Campo obrigatório.'
+
+    # validar número de telefone
+    if not dados.get('phone'):
+        erros['phone'] = 'Campo obrigatório.'
+
+    return erros
+
+@app.route('/api/hoteis/novo', methods=['POST'])
+@login_required
+def adicionar_hotel():
+    dados_hotel = request.json
+
+    # validar dados do hotel
+    erros = validar_dados_hotel(dados_hotel)
+    if erros:
+        return jsonify({'erros': erros}), 400
+
+    novo_hotel = Hotel(
+        name=dados_hotel['name'],
+        address=dados_hotel['address'],
+        city=dados_hotel['city'],
+        state=dados_hotel['state'],
+        country=dados_hotel['country'],
+        rating=dados_hotel.get('rating', 0.0),
+        website=dados_hotel.get('website'),
+        email=dados_hotel.get('email'),
+        phone=dados_hotel['phone']
+    )
+
+    db.session.add(novo_hotel)
+    db.session.commit()
+
+    return jsonify({'mensagem': 'Hotel adicionado com sucesso!'})
+
+@app.route('/api/hoteis/<int:id>', methods=['DELETE'])
+@login_required
+def excluir_hotel(id):
+    hotel = Hotel.query.get(id)
+
+    if not hotel:
+        return jsonify({'mensagem': 'Hotel não encontrado!'}), 404
+
+    db.session.delete(hotel)
+    db.session.commit()
+
+    return jsonify({'mensagem': 'Hotel excluído com sucesso!'})
+
+
+@app.route('/api/hoteis/<int:id>', methods=['PUT'])
+@login_required
+def editar_hotel(id):
+    hotel = Hotel.query.get(id)
+
+    if not hotel:
+        return jsonify({'mensagem': 'Hotel não encontrado!'}), 404
+
+    dados_hotel = request.json
+
+    # validar dados do hotel
+    erros = validar_dados_hotel(dados_hotel)
+    if erros:
+        return jsonify({'erros': erros}), 400
+
+    hotel.name = dados_hotel['name']
+    hotel.address = dados_hotel['address']
+    hotel.city = dados_hotel['city']
+    hotel.state = dados_hotel['state']
+    hotel.country = dados_hotel['country']
+    hotel.rating = dados_hotel.get('rating', 0.0)
+    hotel.website = dados_hotel.get('website')
+    hotel.email = dados_hotel.get('email')
+    hotel.phone = dados_hotel['phone']
+
+    db.session.commit()
+
+    return jsonify({'mensagem': 'Hotel atualizado com sucesso!'})
 
 
 #####################RotasTemplate############################
@@ -321,6 +457,7 @@ def exibir_administrador(id):
 admin = Admin(app, name='Admin', template_mode='bootstrap3')
 admin.add_view(ModelView(PontoTuristico, db.session))
 admin.add_view(ModelView(Atividade, db.session))
+admin.add_view(ModelView(Hotel, db.session))
 
 if __name__ == '__main__':
     app.config['DEBUG'] = True

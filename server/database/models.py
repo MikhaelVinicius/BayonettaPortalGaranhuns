@@ -29,6 +29,25 @@ class Atividade(db.Model):
     
     def __repr__(self):
         return '<Atividade %r>' % self.nome 
+ 
+class Hotel(db.Model):
+    __tablename__ = 'hotel'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(255), nullable=False)
+    address = db.Column(db.String(255), nullable=False)
+    city = db.Column(db.String(255), nullable=False)
+    state = db.Column(db.String(255), nullable=False)
+    country = db.Column(db.String(255), nullable=False)
+    rating = db.Column(db.Float, default=0.0)
+    website = db.Column(db.String(255))
+    email = db.Column(db.String(255))
+    phone = db.Column(db.String(20))
+    created_at = db.Column(db.TIMESTAMP, server_default='CURRENT_TIMESTAMP', nullable=False)
+    updated_at = db.Column(db.TIMESTAMP, server_default='CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP', nullable=False)  
+    
+    def __repr__(self):
+        return '<Hotel %r>' % self.nome      
 
 
 class Comentarios(db.Model):
