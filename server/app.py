@@ -21,7 +21,7 @@ app.config.from_object(config)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://Bayonetta:$Mika2023@127.0.0.1/bayo_portal_garanhuns_bd'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+app.config['SECRET_KEY'] = 'Bayonetta'
 db = SQLAlchemy(app)
 
 # definição do modelo de dados para pontos turísticos
