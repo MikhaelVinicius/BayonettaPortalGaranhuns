@@ -14,6 +14,21 @@ class PontoTuristico(db.Model):
 
     def __repr__(self):
         return '<PontoTuristico %r>' % self.nome
+    
+    
+ 
+class Atividade(db.Model):
+    __tablename__ = 'atividades'
+
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(255), nullable=False)
+    descricao = db.Column(db.Text)
+    localizacao = db.Column(db.String(255))
+    imagem_url = db.Column(db.String(255))      
+    
+    
+    def __repr__(self):
+        return '<Atividade %r>' % self.nome 
 
 
 class Comentarios(db.Model):

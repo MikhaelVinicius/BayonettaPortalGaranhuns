@@ -18,6 +18,16 @@ class PontosTuristicos(db):
     descricao = Column(Text)
     localizacao = Column(String(255))
     imagem_url = Column(String(255))
+    
+
+class Atividade(db):
+    __tablename__ = 'atividades'
+
+    id = Column(Integer, primary_key=True)
+    nome = Column(String(255), nullable=False)
+    descricao = Column(Text)
+    localizacao = Column(String(255))
+    imagem_url = Column(String(255))    
 
 
 class Comentarios(db):

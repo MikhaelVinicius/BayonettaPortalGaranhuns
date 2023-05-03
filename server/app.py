@@ -26,7 +26,7 @@ db = SQLAlchemy(app)
 
 # definição do modelo de dados para pontos turísticos
 
-
+#####################CLASSES#############################
 class PontoTuristico(db.Model):
     __tablename__ = 'pontos_turisticos'
     id = db.Column(db.Integer, primary_key=True)
@@ -44,6 +44,23 @@ class PontoTuristico(db.Model):
             'imagem_url': self.imagem_url
         }
 
+
+class Atividade(db.Model):
+    __tablename__ = 'atividades'
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    descricao = db.Column(db.String(500), nullable=False)
+    localizacao = db.Column(db.String(100), nullable=False)
+    imagem_url = db.Column(db.String(255))
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'nome': self.nome,
+            'descricao': self.descricao,
+            'localizacao': self.localizacao,
+            'imagem_url': self.imagem_url
+        }
 
 
 
@@ -71,8 +88,10 @@ class Administradores(db.Model):
     def __repr__(self):
         return '<administradores %r>' % self.nome
 
+##########################RotasJson##################################
 
 
+##PONTOS TURISTICOS
 # Rota para exibir todos os pontos turísticos em formato JSON
 @app.route('/api/pontos_turisticos')
 def listar_pontos_turisticos_json():
@@ -162,9 +181,97 @@ def editar_ponto_turistico(id):
     return jsonify({'mensagem': 'Ponto turístico atualizado com sucesso!'})
 
 
+###ATIVIDADES
+
+@app.route('/api/atividades')
+def listar_atividades_json():
+    atividades = Atividade.query.all()
+    return jsonify([atividade.to_dict() for atividade in atividades])
+
+def validar_dados_atividade(dados):
+    erros = {}
+
+    # validar nome
+    if not dados.get('nome'):
+       erros['nome'] = 'Campo obrigatório.'
+
+    # validar descrição
+    if not dados.get('descricao'):
+       erros['descricao'] = 'Campo obrigatório.'
+
+    # validar localização
+    if not dados.get('localizacao'):
+       erros['localizacao'] = 'Campo obrigatório.'
+    
+    if not dados.get('imagem_url'):
+       erros['imagem_url'] = "imagem_url"    
+
+    return erros
+
+@app.route('/api/atividades/nova', methods=['POST'])
+@login_required
+def adicionar_atividade():
+    dados_atividade = request.json
+    # validar dados da atividade
+    erros = validar_dados_atividade(dados_atividade)
+    if erros:
+       return jsonify({'erros': erros}), 400
+
+    nova_atividade = Atividade(
+         nome=dados_atividade['nome'],
+         descricao=dados_atividade['descricao'],
+         localizacao=dados_atividade['localizacao'],
+         imagem_url=dados_atividade['imagem_url']
+)
+
+    db.session.add(nova_atividade)
+    db.session.commit()
+
+    return jsonify({'mensagem': 'Atividade adicionada com sucesso!'})
 
 
-#################################################
+@app.route('/api/atividades/int:id', methods=['DELETE'])
+@login_required
+def excluir_atividade(id):
+  atividade = Atividade.query.get(id)
+   
+  if not atividade:
+    return jsonify({'mensagem': 'Atividade não encontrada!'}), 404
+
+  db.session.delete(atividade)
+  db.session.commit()
+
+  return jsonify({'mensagem': 'Atividade excluída com sucesso!'})
+
+
+@app.route('/api/atividades/int:id', methods=['PUT'])
+@login_required
+def editar_atividade(id):
+   atividade = Atividade.query.get(id)
+   
+   if not atividade:
+    return jsonify({'mensagem': 'Atividade não encontrada!'}), 404
+
+   dados_atividade = request.json
+
+# validar dados da atividade
+   erros = validar_dados_atividade(dados_atividade)
+   if erros:
+    return jsonify({'erros': erros}), 400
+
+   atividade.nome = dados_atividade['nome']
+   atividade.descricao = dados_atividade['descricao']
+   atividade.localizacao = dados_atividade['localizacao']
+   atividade.imagem_url = dados_atividade['imagem_url']
+
+   db.session.commit()
+
+   return jsonify({'mensagem': 'Atividade atualizada com sucesso!'})
+
+
+
+
+#####################RotasTemplate############################
 
 # Rota para exibir todos os pontos turísticos
 @app.route('/')
@@ -213,6 +320,7 @@ def exibir_administrador(id):
 
 admin = Admin(app, name='Admin', template_mode='bootstrap3')
 admin.add_view(ModelView(PontoTuristico, db.session))
+admin.add_view(ModelView(Atividade, db.session))
 
 if __name__ == '__main__':
     app.config['DEBUG'] = True
