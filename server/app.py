@@ -119,8 +119,43 @@ def adicionar_ponto_turistico():
 
     return jsonify({'mensagem': 'Ponto turístico adicionado com sucesso!'})
 
+@app.route('/api/pontos_turisticos/<int:id>', methods=['DELETE'])
+@login_required
+def excluir_ponto_turistico(id):
+    ponto_turistico = PontoTuristico.query.get(id)
+
+    if not ponto_turistico:
+        return jsonify({'mensagem': 'Ponto turístico não encontrado!'}), 404
+
+    db.session.delete(ponto_turistico)
+    db.session.commit()
+
+    return jsonify({'mensagem': 'Ponto turístico excluído com sucesso!'})
 
 
+@app.route('/api/pontos_turisticos/<int:id>', methods=['PUT'])
+@login_required
+def editar_ponto_turistico(id):
+    ponto_turistico = PontoTuristico.query.get(id)
+
+    if not ponto_turistico:
+        return jsonify({'mensagem': 'Ponto turístico não encontrado!'}), 404
+
+    dados_ponto_turistico = request.json
+
+    # validar dados do ponto turístico
+    erros = validar_dados_ponto_turistico(dados_ponto_turistico)
+    if erros:
+        return jsonify({'erros': erros}), 400
+
+    ponto_turistico.nome = dados_ponto_turistico['nome']
+    ponto_turistico.descricao = dados_ponto_turistico['descricao']
+    ponto_turistico.localizacao = dados_ponto_turistico['localizacao']
+    ponto_turistico.imagem_url = dados_ponto_turistico['imagem_url']
+
+    db.session.commit()
+
+    return jsonify({'mensagem': 'Ponto turístico atualizado com sucesso!'})
 
 
 
