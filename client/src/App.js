@@ -11,7 +11,7 @@ function App() {
     <Router>
       <Homepage />
       <Switch>
-        <Route path="/pontos-turisticos" component={PontoTuristicoList} />
+        <Route path="/pontos_turisticos" component={PontoTuristicoList} />
      
       </Switch>
     </Router>
