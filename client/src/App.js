@@ -4,7 +4,9 @@ import Homepage from './pages/Homepage';
 import PontoTuristicoList from './pages/PontoTuristicoList';
 //import HospedagemList from './HospedagemList';
 //import RestauranteList from './RestauranteList';
-//import AtividadeList from './AtividadeList';
+//
+
+import AtividadeList from './pages/AtividadeList';
 
 function App() {
   return (

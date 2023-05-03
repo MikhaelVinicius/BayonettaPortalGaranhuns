@@ -15,10 +15,10 @@ function AtividadeList() {
   }, []);
 
   return (
-    <div className="atividade-list">
+    <div className="pt-list">
       <h1>Atividades</h1>
       {atividades.map(atividade => (
-        <div className="atividade-card" key={atividade.id}>
+        <div className="pt-card" key={atividade.id}>
           <img src={atividade.imagem_url} alt={atividade.nome} />
           <div className="card-body">
             <h2>{atividade.nome}</h2>
@@ -33,3 +33,4 @@ function AtividadeList() {
 }
 
 export default AtividadeList;
+

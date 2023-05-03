@@ -5,7 +5,10 @@ body {
     font-family: 'Roboto', sans-serif;
     background-color: #fff;
     color: #000;
+   
   }
+
+  
   
   /* Definindo o estilo do cabeçalho */
   header {
@@ -104,6 +107,7 @@ body {
     align-items: center;
     margin-top: 80px;
     height: calc(100vh - 80px);
+   
   }
   
   h1 {
