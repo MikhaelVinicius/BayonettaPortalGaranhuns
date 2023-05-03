@@ -1,9 +1,14 @@
-from flask import Flask, render_template
+from flask import Flask, jsonify, render_template
+
 from flask_sqlalchemy import SQLAlchemy
 import config
+from flask_cors import CORS
+
+
+
 app = Flask(__name__)
 
-
+CORS(app)
 app.config.from_object(config)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://Bayonetta:$Mika2023@127.0.0.1/bayo_portal_garanhuns_bd'
@@ -12,17 +17,25 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # definição do modelo de dados para pontos turísticos
+
+
 class PontoTuristico(db.Model):
     __tablename__ = 'pontos_turisticos'
-
     id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(255), nullable=False)
-    descricao = db.Column(db.Text)
-    localizacao = db.Column(db.String(255))
+    nome = db.Column(db.String(100), nullable=False)
+    descricao = db.Column(db.String(500), nullable=False)
+    localizacao = db.Column(db.String(100), nullable=False)
     imagem_url = db.Column(db.String(255))
 
-    def __repr__(self):
-        return '<PontoTuristico %r>' % self.nome
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'nome': self.nome,
+            'descricao': self.descricao,
+            'localizacao': self.localizacao
+        }
+
+
 
 
 class Comentarios(db.Model):
@@ -64,6 +77,15 @@ def exibir_ponto_turistico(id):
     return render_template('exibir_ponto_turistico.html', ponto_turistico=ponto_turistico)
 
 
+# Rota para exibir todos os pontos turísticos em formato JSON
+@app.route('/api/pontos_turisticos')
+def listar_pontos_turisticos_json():
+    pontos_turisticos = PontoTuristico.query.all()
+    return jsonify([ponto_turistico.to_dict() for ponto_turistico in pontos_turisticos])
+
+
+
+
 # Rota para exibir todos os comentários
 @app.route('/comentarios')
 def listar_comentarios():
@@ -93,4 +115,6 @@ def exibir_administrador(id):
 
 
 if __name__ == '__main__':
+    app.config['DEBUG'] = True
+
     app.run()

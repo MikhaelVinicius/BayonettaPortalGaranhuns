@@ -1,16 +1,20 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Homepage from './pages/Homepage';
-
+import PontoTuristicoList from './pages/PontoTuristicoList';
+//import HospedagemList from './HospedagemList';
+//import RestauranteList from './RestauranteList';
+//import AtividadeList from './AtividadeList';
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
+      <Homepage />
       <Switch>
-        <Route exact path="/" component={Homepage} />
-    
+        <Route path="/pontos-turisticos" component={PontoTuristicoList} />
+     
       </Switch>
-    </BrowserRouter>
+    </Router>
   );
 }
 

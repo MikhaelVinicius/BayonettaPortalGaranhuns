@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Homepage.css'; 
+import App from '../App';
 
 function Homepage() {
   return (
@@ -13,7 +14,7 @@ function Homepage() {
             <button type="submit">Buscar</button>
           </div>
           <ul className="main-menu">
-            <li><Link to="/pontos-turisticos">Pontos Turísticos</Link></li>
+            <li><Link to="/pontos_turisticos">Pontos Turísticos</Link></li>
             <li><Link to="/hospedagens">Hospedagens</Link></li>
             <li><Link to="/restaurantes">Restaurantes</Link></li>
             <li><Link to="/atividades">Atividades</Link></li>
@@ -23,7 +24,8 @@ function Homepage() {
       <main>
         <h1>Bem-vindo ao Portal de Turismo</h1>
         <p>Encontre os melhores destinos, hospedagens, restaurantes e atividades turísticas.</p>
-        <Link to="/pontos-turisticos" className="cta-btn">Explorar</Link>
+        <Link to="/pontos_turisticos" className="cta-btn">Explorar</Link>
+
       </main>
       <footer>
         <ul>
