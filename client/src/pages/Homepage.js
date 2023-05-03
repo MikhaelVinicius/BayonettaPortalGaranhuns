@@ -27,14 +27,9 @@ function Homepage() {
         <Link to="/pontos_turisticos" className="cta-btn">Explorar</Link>
 
       </main>
-      <footer>
-        <ul>
-          <li><Link to="/sobre">Sobre nós</Link></li>
-          <li><Link to="/contato">Contato</Link></li>
-          <li><Link to="/termos">Termos de uso</Link></li>
-        </ul>
-      </footer>
+
     </div>
+    
   );
 }
 

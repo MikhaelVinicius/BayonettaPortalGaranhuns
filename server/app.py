@@ -1,8 +1,16 @@
 from flask import Flask, jsonify, render_template
+from flask_login import LoginManager
+from flask import Flask, request
 
+from flask_login import login_required
 from flask_sqlalchemy import SQLAlchemy
 import config
 from flask_cors import CORS
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+
+
+
 
 
 
@@ -63,6 +71,62 @@ class Administradores(db.Model):
         return '<administradores %r>' % self.nome
 
 
+
+# Rota para exibir todos os pontos turísticos em formato JSON
+@app.route('/api/pontos_turisticos')
+def listar_pontos_turisticos_json():
+    pontos_turisticos = PontoTuristico.query.all()
+    return jsonify([ponto_turistico.to_dict() for ponto_turistico in pontos_turisticos])
+
+
+def validar_dados_ponto_turistico(dados):
+    erros = {}
+
+    # validar nome
+    if not dados.get('nome'):
+        erros['nome'] = 'Campo obrigatório.'
+
+    # validar descrição
+    if not dados.get('descricao'):
+        erros['descricao'] = 'Campo obrigatório.'
+
+    # validar localização
+    if not dados.get('localizacao'):
+        erros['localizacao'] = 'Campo obrigatório.'
+
+    return erros
+
+
+@app.route('/api/pontos_turisticos/novo', methods=['POST'])
+@login_required
+def adicionar_ponto_turistico():
+    dados_ponto_turistico = request.json
+
+    # validar dados do ponto turístico
+    erros = validar_dados_ponto_turistico(dados_ponto_turistico)
+    if erros:
+        return jsonify({'erros': erros}), 400
+
+    novo_ponto_turistico = PontoTuristico(
+        nome=dados_ponto_turistico['nome'],
+        descricao=dados_ponto_turistico['descricao'],
+        localizacao=dados_ponto_turistico['localizacao'],
+        imagem_url=dados_ponto_turistico['imagem_url']
+    )
+
+    db.session.add(novo_ponto_turistico)
+    db.session.commit()
+
+    return jsonify({'mensagem': 'Ponto turístico adicionado com sucesso!'})
+
+
+
+
+
+
+
+#################################################
+
 # Rota para exibir todos os pontos turísticos
 @app.route('/')
 def listar_pontos_turisticos():
@@ -77,11 +141,6 @@ def exibir_ponto_turistico(id):
     return render_template('exibir_ponto_turistico.html', ponto_turistico=ponto_turistico)
 
 
-# Rota para exibir todos os pontos turísticos em formato JSON
-@app.route('/api/pontos_turisticos')
-def listar_pontos_turisticos_json():
-    pontos_turisticos = PontoTuristico.query.all()
-    return jsonify([ponto_turistico.to_dict() for ponto_turistico in pontos_turisticos])
 
 
 
@@ -113,6 +172,8 @@ def exibir_administrador(id):
     administrador = Administradores.query.get(id)
     return render_template('exibir_administrador.html', administrador=administrador)
 
+admin = Admin(app, name='Admin', template_mode='bootstrap3')
+admin.add_view(ModelView(PontoTuristico, db.session))
 
 if __name__ == '__main__':
     app.config['DEBUG'] = True
