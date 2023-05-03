@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './Homepage.css'; 
 import App from '../App';
 import PontoTuristicoList from './PontoTuristicoList';
+import AtividadeList from './AtividadeList';
 
 function Homepage() {
   const pontoTuristicoListRef = useRef(null);
@@ -24,7 +25,7 @@ function Homepage() {
             <li><Link to="/pontos_turisticos">Pontos Turísticos</Link></li>
             <li><Link to="/hospedagens">Hospedagens</Link></li>
             <li><Link to="/restaurantes">Restaurantes</Link></li>
-            <li><Link to="/atividades">Atividades</Link></li>
+            <li><Link to="/atividades">Atividades</Link></li> {/* Alterado para apontar para a página de atividades */}
           </ul>
         </nav>
       </header>
@@ -37,6 +38,8 @@ function Homepage() {
       <div ref={pontoTuristicoListRef}>
         <PontoTuristicoList />
       </div>
+      
+      <AtividadeList /> {/* Adicionado o componente AtividadeList */}
     </div>
     
   );
