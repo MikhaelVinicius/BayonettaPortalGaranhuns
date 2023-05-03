@@ -40,7 +40,8 @@ class PontoTuristico(db.Model):
             'id': self.id,
             'nome': self.nome,
             'descricao': self.descricao,
-            'localizacao': self.localizacao
+            'localizacao': self.localizacao,
+            'imagem_url': self.imagem_url
         }
 
 
@@ -93,6 +94,9 @@ def validar_dados_ponto_turistico(dados):
     # validar localização
     if not dados.get('localizacao'):
         erros['localizacao'] = 'Campo obrigatório.'
+        
+    if not dados.get('imagem_url'):
+        erros['imagem_url'] = "imagem_url"    
 
     return erros
 

@@ -4,7 +4,8 @@
   gap: 20px;
   margin-top: 80px;
   padding: 0 50px;
-}
+  margin: 0 auto;
+  }
 
 .pt-card {
   background-color: #fff;
