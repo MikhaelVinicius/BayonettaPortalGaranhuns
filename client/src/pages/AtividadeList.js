@@ -14,6 +14,15 @@ function AtividadeList() {
       });
   }, []);
 
+  const limitarDescricao = (descricao) => {
+    const limite = 200;
+    if (descricao.length <= limite) {
+      return descricao;
+    } else {
+      return descricao.substring(0, limite) + '...';
+    }
+  };
+
   return (
     <div className="pt-list">
       <h1>Atividades</h1>
@@ -22,7 +31,7 @@ function AtividadeList() {
           <img src={atividade.imagem_url} alt={atividade.nome} />
           <div className="card-body">
             <h2>{atividade.nome}</h2>
-            <p>{atividade.descricao}</p>
+            <p>{limitarDescricao(atividade.descricao)}</p>
             <p>{atividade.localizacao}</p>
             <a href="#" className="cta-btn">Ver mais</a>
           </div>
@@ -33,4 +42,5 @@ function AtividadeList() {
 }
 
 export default AtividadeList;
+
 
