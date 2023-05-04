@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './RestauranteList.css';
+import Nav from '../components/Nav';
 
 function RestauranteList() {
   const [restaurantes, setRestaurantes] = useState([]);
@@ -16,6 +17,9 @@ function RestauranteList() {
 
   return (
     <div className="pt-list">
+      <header>
+      <Nav /> 
+    </header>
       <h1>Restaurantes</h1>
       {restaurantes.map(restaurante => (
         <div className="pt-card" key={restaurante.id}>

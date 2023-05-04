@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './PontoTuristicoList.css';
+import Nav from '../components/Nav';
 
 function PontoTuristicoList() {
   const [pontosTuristicos, setPontosTuristicos] = useState([]);
@@ -24,6 +25,9 @@ function PontoTuristicoList() {
 
   return (
     <div className="pt-list">
+       <header>
+      <Nav /> 
+    </header>
       <h1>Pontos turísticos</h1>
       {pontosTuristicos.map(pontoTuristico => (
         <div className="pt-card" key={pontoTuristico.id}>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Homepage.css'; 
 import App from '../App';
 import PontoTuristicoList from './PontoTuristicoList';
-import Nav from './Nav'; 
+import Nav from '../components/Nav'; 
 
 function Homepage() {
   const pontoTuristicoListRef = useRef(null);

@@ -5,6 +5,8 @@ import Homepage from './pages/Homepage';
 import PontoTuristicoList from './pages/PontoTuristicoList';
 import AtividadeList from './pages/AtividadeList';
 import Detalhes from './pages/DetalhesAtividade';
+import HotelList from './pages/HotelList';
+import RestauranteList from './pages/RestauranteList';
 
 function App() {
   return (
@@ -14,6 +16,10 @@ function App() {
         <Route path="/pontos-turisticos" component={PontoTuristicoList} />
         <Route exact path="/atividades" component={AtividadeList} />
         <Route path="/atividades/:id" component={Detalhes} />
+        <Route path="/hoteis" component={HotelList} />
+        <Route path="/hoteis/:id" component={HotelList} />
+        <Route path="/restaurantes" component={RestauranteList} />
+       
       </Switch>
     </Router>
   );
