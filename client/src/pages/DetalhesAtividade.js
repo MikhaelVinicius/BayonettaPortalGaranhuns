@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './DetalhesAtividade.css';
+import Nav from './Nav'; 
 
 function AtividadeDetalhes(props) {
   const [atividade, setAtividade] = useState(null);
@@ -19,11 +20,14 @@ function AtividadeDetalhes(props) {
   }
 
   return (
-    <div >
-      <div>
+    <div className="atividade-detalhes">
+      <header>
+        <Nav /> 
+      </header>
+      <div className="imagem">
         <img src={atividade.imagem_url} alt={atividade.nome} />
       </div>
-      <div>
+      <div className="info">
         <h1>{atividade.nome}</h1>
         <p>{atividade.descricao}</p>
         <p>{atividade.localizacao}</p>
@@ -34,3 +38,4 @@ function AtividadeDetalhes(props) {
 }
 
 export default AtividadeDetalhes;
+

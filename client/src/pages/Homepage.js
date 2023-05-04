@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Homepage.css'; 
 import App from '../App';
 import PontoTuristicoList from './PontoTuristicoList';
-import Nav from './Nav'; // importando o componente Nav
+import Nav from './Nav'; 
 
 function Homepage() {
   const pontoTuristicoListRef = useRef(null);
@@ -30,7 +30,7 @@ function Homepage() {
   return (
     <div className="homepage">
     <header>
-      <Nav /> {/* adicionando o componente Nav */}
+      <Nav /> 
     </header>
     <main>
       <h1>Bem-vindo ao Portal de Turismo</h1>

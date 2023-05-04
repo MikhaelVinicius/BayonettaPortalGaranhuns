@@ -3,8 +3,10 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     margin-top: 80px;
-    padding: 0 30px;
+    padding: 50px 00px;
     margin: 0 auto;
+    margin-top: 60px;
+    margin-right: 80px;
     }
   
   .pt-card {

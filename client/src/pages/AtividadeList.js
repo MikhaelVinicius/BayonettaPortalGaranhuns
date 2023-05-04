@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AtividadeList.css';
 import { Link } from 'react-router-dom';
+import Nav from './Nav'; 
 
 function AtividadeList() {
   const [atividades, setAtividades] = useState([]);
@@ -26,6 +27,9 @@ function AtividadeList() {
 
   return (
     <div className="pt-list">
+       <header>
+      <Nav /> 
+    </header>
       <h1>Atividades</h1>
       {atividades.map(atividade => (
         <div className="pt-card" key={atividade.id}>
