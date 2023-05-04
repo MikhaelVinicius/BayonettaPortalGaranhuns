@@ -19,11 +19,11 @@ function AtividadeDetalhes(props) {
   }
 
   return (
-    <div className="detalhes">
-      <div className="imagens">
+    <div >
+      <div>
         <img src={atividade.imagem_url} alt={atividade.nome} />
       </div>
-      <div className="informacoes">
+      <div>
         <h1>{atividade.nome}</h1>
         <p>{atividade.descricao}</p>
         <p>{atividade.localizacao}</p>

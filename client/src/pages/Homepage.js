@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import './Homepage.css'; 
 import App from '../App';
 import PontoTuristicoList from './PontoTuristicoList';
-
-
+import Nav from './Nav'; // importando o componente Nav
 
 function Homepage() {
   const pontoTuristicoListRef = useRef(null);
@@ -31,19 +30,7 @@ function Homepage() {
   return (
     <div className="homepage">
     <header>
-      <nav>
-        <Link to="/" className="logo">Portal de Turismo</Link>
-        <div className="search-box">
-          <input type="text" placeholder="Pesquisar..." />
-          <button type="submit">Buscar</button>
-        </div>
-        <ul className="main-menu">
-          <li><Link to="/pontos_turisticos">Pontos Turísticos</Link></li>
-          <li><Link to="/hospedagens">Hospedagens</Link></li>
-          <li><Link to="/restaurantes">Restaurantes</Link></li>
-          <li><Link to="/atividades">Atividades</Link></li>
-        </ul>
-      </nav>
+      <Nav /> {/* adicionando o componente Nav */}
     </header>
     <main>
       <h1>Bem-vindo ao Portal de Turismo</h1>

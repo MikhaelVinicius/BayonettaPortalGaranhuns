@@ -1,0 +1,87 @@
+header {
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  .search-box {
+    display: flex;
+    align-items: center;
+  }
+  
+  input[type="text"] {
+    border: none;
+    border-bottom: 2px solid #fff;
+    background-color: transparent;
+    color: #fff;
+    padding: 8px;
+    margin-right: 10px;
+  }
+  
+  input[type="text"]::placeholder {
+    color: #fff;
+  }
+  
+  button[type="submit"] {
+    background-color: #fff;
+    color: #000;
+    border: none;
+    padding: 8px 16px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .main-menu {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .main-menu li {
+    margin-right: 20px;
+  }
+  
+  .main-menu li:last-child {
+    margin-right: 0;
+  }
+  
+  .main-menu li a {
+    font-size: 16px;
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+    padding: 8px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .main-menu li a:hover {
+    background-color: #fff;
+    color: #000;
+  }
