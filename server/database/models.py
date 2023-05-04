@@ -49,6 +49,21 @@ class Hotel(db.Model):
     
     def __repr__(self):
         return '<Hotel %r>' % self.nome      
+    
+class Restaurante(db.Model):
+    __tablename__ = 'restaurantes'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome = db.Column(db.String(255), nullable=False)
+    endereco = db.Column(db.String(255), nullable=False)
+    cidade = db.Column(db.String(255), nullable=False)
+    estado = db.Column(db.String(255), nullable=False)
+    telefone = db.Column(db.String(255), nullable=False)
+    imagem_url = db.Column(db.String(255), nullable=False)
+    
+    
+    def __repr__(self):
+        return '<Restaurante %r>' % self.nome   
 
 
 class Comentarios(db.Model):

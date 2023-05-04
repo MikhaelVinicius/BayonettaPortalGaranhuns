@@ -96,6 +96,31 @@ class Hotel(db.Model):
             'imagem_url': self.imagem_url
         }
 
+
+class Restaurante(db.Model):
+    __tablename__ = 'restaurantes'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome = db.Column(db.String(255), nullable=False)
+    endereco = db.Column(db.String(255), nullable=False)
+    cidade = db.Column(db.String(255), nullable=False)
+    estado = db.Column(db.String(255), nullable=False)
+    telefone = db.Column(db.String(255), nullable=False)
+    imagem_url = db.Column(db.String(255), nullable=False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'nome': self.nome,
+            'endereco': self.endereco,
+            'cidade': self.cidade,
+            'estado': self.estado,
+            'telefone': self.telefone,
+            'imagem_url': self.imagem_url
+        }
+
+
+
 class Comentarios(db.Model):
     __tablename__ = 'comentarios'
 
@@ -412,6 +437,99 @@ def editar_hotel(id):
 
     return jsonify({'mensagem': 'Hotel atualizado com sucesso!'})
 
+####Restaurantes
+
+@app.route('/api/restaurantes')
+def listar_restaurantes():
+    restaurantes = Restaurante.query.all()
+    return jsonify([restaurante.to_dict() for restaurante in restaurantes])
+
+def validar_dados_restaurante(dados):
+    erros = {}
+
+    if not dados.get('nome'):
+        erros['nome'] = 'Campo obrigatório.'
+
+    if not dados.get('endereco'):
+        erros['endereco'] = 'Campo obrigatório.'
+
+    if not dados.get('cidade'):
+        erros['cidade'] = 'Campo obrigatório.'
+        
+    if not dados.get('estado'):
+        erros['estado'] = 'Campo obrigatório.'
+    
+    if not dados.get('telefone'):
+        erros['telefone'] = 'Campo obrigatório.'
+        
+    if not dados.get('imagem_url'):
+        erros['imagem_url'] = "imagem_url"    
+
+    return erros
+
+@app.route('/api/restaurantes/novo', methods=['POST'])
+@login_required
+def adicionar_restaurante():
+    dados_restaurante = request.json
+
+    erros = validar_dados_restaurante(dados_restaurante)
+    if erros:
+        return jsonify({'erros': erros}), 400
+
+    novo_restaurante = Restaurante(
+        nome=dados_restaurante['nome'],
+        endereco=dados_restaurante['endereco'],
+        cidade=dados_restaurante['cidade'],
+        estado=dados_restaurante['estado'],
+        telefone=dados_restaurante['telefone'],
+        imagem_url=dados_restaurante['imagem_url']
+    )
+
+    db.session.add(novo_restaurante)
+    db.session.commit()
+
+    return jsonify({'mensagem': 'Restaurante adicionado com sucesso!'})
+
+@app.route('/api/restaurantes/<int:id>', methods=['DELETE'])
+@login_required
+def excluir_restaurante(id):
+    restaurante = Restaurante.query.get(id)
+
+    if not restaurante:
+        return jsonify({'mensagem': 'Restaurante não encontrado!'}), 404
+
+    db.session.delete(restaurante)
+    db.session.commit()
+
+    return jsonify({'mensagem': 'Restaurante excluído com sucesso!'})
+
+
+@app.route('/api/restaurantes/<int:id>', methods=['PUT'])
+@login_required
+def editar_restaurante(id):
+    restaurante = Restaurante.query.get(id)
+
+    if not restaurante:
+        return jsonify({'mensagem': 'Restaurante não encontrado!'}), 404
+
+    dados_restaurante = request.json
+
+    erros = validar_dados_restaurante(dados_restaurante)
+    if erros:
+        return jsonify({'erros': erros}), 400
+
+    restaurante.nome = dados_restaurante['nome']
+    restaurante.endereco = dados_restaurante['endereco']
+    restaurante.cidade = dados_restaurante['cidade']
+    restaurante.estado = dados_restaurante['estado']
+    restaurante.telefone = dados_restaurante['telefone']
+    restaurante.imagem_url = dados_restaurante['imagem_url']
+
+    db.session.commit()
+
+    return jsonify({'mensagem': 'Restaurante atualizado com sucesso!'})
+
+
 
 #####################RotasTemplate############################
 
@@ -464,6 +582,7 @@ admin = Admin(app, name='Admin', template_mode='bootstrap3')
 admin.add_view(ModelView(PontoTuristico, db.session))
 admin.add_view(ModelView(Atividade, db.session))
 admin.add_view(ModelView(Hotel, db.session))
+admin.add_view(ModelView(Restaurante, db.session))
 
 if __name__ == '__main__':
     app.config['DEBUG'] = True

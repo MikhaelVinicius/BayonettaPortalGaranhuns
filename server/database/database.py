@@ -46,6 +46,16 @@ class Hotel(db):
     created_at = Column(TIMESTAMP, server_default='CURRENT_TIMESTAMP', nullable=False)
     updated_at = Column(TIMESTAMP, server_default='CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP', nullable=False)    
     
+class Restaurante(db):
+    __tablename__ = 'restaurantes'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nome = Column(String(255), nullable=False)
+    endereco = Column(String(255), nullable=False)
+    cidade = Column(String(255), nullable=False)
+    estado = Column(String(255), nullable=False)
+    telefone = Column(String(255), nullable=False)
+    imagem_url = Column(String(255), nullable=False)
 
 
 class Comentarios(db):
