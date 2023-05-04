@@ -212,10 +212,11 @@ def excluir_ponto_turistico(id):
 
     return jsonify({'mensagem': 'Ponto turístico excluído com sucesso!'})
 
-
-@app.route('/api/pontos_turisticos/<int:id>', methods=['PUT'])
+@app.route('/api/pontos_turisticos/<int:id>', methods=['GET', 'PUT'])
 @login_required
 def editar_ponto_turistico(id):
+    # código para obter e atualizar um ponto turístico
+
     ponto_turistico = PontoTuristico.query.get(id)
 
     if not ponto_turistico:
@@ -250,20 +251,31 @@ def validar_dados_atividade(dados):
 
     # validar nome
     if not dados.get('nome'):
-       erros['nome'] = 'Campo obrigatório.'
+        erros['nome'] = 'Campo obrigatório.'
 
     # validar descrição
     if not dados.get('descricao'):
-       erros['descricao'] = 'Campo obrigatório.'
+        erros['descricao'] = 'Campo obrigatório.'
 
     # validar localização
     if not dados.get('localizacao'):
-       erros['localizacao'] = 'Campo obrigatório.'
+        erros['localizacao'] = 'Campo obrigatório.'
     
+    # validar imagem_url
     if not dados.get('imagem_url'):
-       erros['imagem_url'] = "imagem_url"    
+        erros['imagem_url'] = 'Campo obrigatório.'
 
     return erros
+
+@app.route('/api/atividades/<int:id>', methods=['GET'])
+def detalhes_atividade(id):
+    atividade = Atividade.query.get(id)
+
+    if not atividade:
+        return jsonify({'mensagem': 'Atividade não encontrada!'}), 404
+
+    return jsonify(atividade.to_dict())
+
 
 @app.route('/api/atividades/nova', methods=['POST'])
 @login_required
@@ -287,7 +299,7 @@ def adicionar_atividade():
     return jsonify({'mensagem': 'Atividade adicionada com sucesso!'})
 
 
-@app.route('/api/atividades/int:id', methods=['DELETE'])
+@app.route('/api/atividades/<int:id>', methods=['DELETE'])
 @login_required
 def excluir_atividade(id):
   atividade = Atividade.query.get(id)
@@ -300,8 +312,7 @@ def excluir_atividade(id):
 
   return jsonify({'mensagem': 'Atividade excluída com sucesso!'})
 
-
-@app.route('/api/atividades/int:id', methods=['PUT'])
+@app.route('/api/atividades/<int:id>', methods=['PUT'])
 @login_required
 def editar_atividade(id):
    atividade = Atividade.query.get(id)

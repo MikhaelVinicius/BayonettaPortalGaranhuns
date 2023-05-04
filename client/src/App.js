@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Homepage from './pages/Homepage';
 import PontoTuristicoList from './pages/PontoTuristicoList';
 import AtividadeList from './pages/AtividadeList';
-import Detalhes from './pages/Detalhes';
+import Detalhes from './pages/DetalhesAtividade';
 
 function App() {
   return (
