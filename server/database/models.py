@@ -23,7 +23,7 @@ class Atividade(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(255), nullable=False)
-    descricao = db.Column(db.Text)
+    descricao = db.Column(db.String(10000))
     localizacao = db.Column(db.String(255))
     imagem_url = db.Column(db.String(255))      
     
