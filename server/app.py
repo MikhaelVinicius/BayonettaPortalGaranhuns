@@ -31,7 +31,7 @@ class PontoTuristico(db.Model):
     __tablename__ = 'pontos_turisticos'
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
-    descricao = db.Column(db.String(500), nullable=False)
+    descricao = db.Column(db.String(10000), nullable=False)
     localizacao = db.Column(db.String(100), nullable=False)
     imagem_url = db.Column(db.String(255))
 
