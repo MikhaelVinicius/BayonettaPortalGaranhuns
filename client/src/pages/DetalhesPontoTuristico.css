@@ -1,0 +1,47 @@
+/* DetalhesAtividade.css */
+
+.atividade-detalhes {
+    display: flex;
+    align-items: center;
+    padding: 50px;
+  }
+  
+  .atividade-detalhes .imagem {
+    flex: 1;
+    margin-right: 50px;
+  }
+  
+  .atividade-detalhes .imagem img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+  }
+  
+  .atividade-detalhes .info {
+    flex: 1;
+  }
+  
+  .atividade-detalhes h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .atividade-detalhes p {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .atividade-detalhes {
+      padding: 100px 00px;
+    }
+  
+    .atividade-detalhes .imagem {
+      margin-right: 100px;
+    }
+  
+    .atividade-detalhes .imagem img {
+      max-width: 800px;
+    }
+  }
+  

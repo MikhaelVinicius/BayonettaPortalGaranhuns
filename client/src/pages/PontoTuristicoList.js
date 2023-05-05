@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './PontoTuristicoList.css';
 import Nav from '../components/Nav';
+import { Link } from 'react-router-dom';
 
 function PontoTuristicoList() {
   const [pontosTuristicos, setPontosTuristicos] = useState([]);
@@ -36,7 +37,7 @@ function PontoTuristicoList() {
             <h2>{pontoTuristico.nome}</h2>
             <p>{limitarDescricao(pontoTuristico.descricao)}</p>
             <p>{pontoTuristico.localizacao}</p>
-            <a href="#" className="cta-btn">Ver mais</a>
+            <Link to={`/pontos-turisticos/${pontoTuristico.id}`} className="cta-btn">Ver mais</Link>
           </div>
         </div>
       ))}
