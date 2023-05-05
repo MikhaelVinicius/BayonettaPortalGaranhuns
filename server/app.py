@@ -176,6 +176,15 @@ def validar_dados_ponto_turistico(dados):
 
     return erros
 
+@app.route('/api/pontos_turisticos/<int:id>', methods=['GET'])
+def detalhes_pontos_turisticos(id):
+    pontos_turisticos = PontoTuristico.query.get(id)
+
+    if not pontos_turisticos:
+        return jsonify({'mensagem': 'Ponto não encontrada!'}), 404
+
+    return jsonify(pontos_turisticos.to_dict())
+
 
 @app.route('/api/pontos_turisticos/novo', methods=['POST'])
 @login_required
@@ -337,7 +346,7 @@ def editar_atividade(id):
    return jsonify({'mensagem': 'Atividade atualizada com sucesso!'})
 
 
-##### Hotel
+############## HOTEL
 
 @app.route('/api/hoteis')
 def listar_hoteis_json():
@@ -375,6 +384,15 @@ def validar_dados_hotel(dados):
         erros['imagem_url'] = "imagem_url"       
 
     return erros
+
+@app.route('/api/hoteis/<int:id>', methods=['GET'])
+def detalhes_hoteis(id):
+    hoteis = Hotel.query.get(id)
+
+    if not hoteis:
+        return jsonify({'mensagem': 'Hospedagem não encontrada!'}), 404
+
+    return jsonify(hoteis.to_dict())
 
 @app.route('/api/hoteis/novo', methods=['POST'])
 @login_required
@@ -477,6 +495,15 @@ def validar_dados_restaurante(dados):
         erros['imagem_url'] = "imagem_url"    
 
     return erros
+
+@app.route('/api/restaurantes/<int:id>', methods=['GET'])
+def detalhes_restaurantes(id):
+    restaurantes = Restaurante.query.get(id)
+
+    if not restaurantes:
+        return jsonify({'mensagem': 'Restaurante não encontrado!'}), 404
+
+    return jsonify(restaurantes.to_dict())
 
 @app.route('/api/restaurantes/novo', methods=['POST'])
 @login_required
