@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './DetalhesAtividade.css';
+import '../CSS/DetalhesAtividade.css';
 import Nav from '../components/Nav'; 
 
 function AtividadeDetalhes(props) {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './DetalhesPontoTuristico.css';
+import '../CSS/DetalhesPontoTuristico.css';
 import Nav from '../components/Nav'; 
 
 function PontoTuristicoDetalhes(props) {

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import './Homepage.css'; 
+import '../CSS/Homepage.css'; 
 import App from '../App';
 import PontoTuristicoList from './PontoTuristicoList';
 import Nav from '../components/Nav'; 
