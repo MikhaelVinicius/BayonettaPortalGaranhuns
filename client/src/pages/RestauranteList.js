@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../CSS/RestauranteList.css';
 import Nav from '../components/Nav';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 function RestauranteList() {
   const [restaurantes, setRestaurantes] = useState([]);
@@ -28,7 +29,7 @@ function RestauranteList() {
             <h2>{restaurante.nome}</h2>
             <p>{restaurante.descricao}</p>
             <p>{restaurante.localizacao}</p>
-            <a href="#" className="cta-btn">Ver mais</a>
+            <Link to={`/restaurantes/${restaurante.id}`} className="cta-btn">Ver mais</Link>
           </div>
         </div>
       ))}

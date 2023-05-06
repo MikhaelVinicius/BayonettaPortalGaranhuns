@@ -9,6 +9,7 @@ import HotelList from './pages/HotelList';
 import RestauranteList from './pages/RestauranteList';
 import PontoTuristicoDetalhes from './pages/DetalhesPontoTuristisco';
 import HotelDetalhes from './pages/DetalhesHotel';
+import RestauranteDetalhes from './pages/DetalhesRestaurante';
 
 function App() {
   return (
@@ -22,7 +23,9 @@ function App() {
         <Route path="/atividades/:id" component={Detalhes} />
         <Route exact path="/hoteis" component={HotelList} />
         <Route path="/hoteis/:id" component={HotelDetalhes} />
-        <Route path="/restaurantes" component={RestauranteList} />
+        <Route exact path="/restaurantes" component={RestauranteList} />
+        <Route path="/restaurantes/:id" component={RestauranteDetalhes} />
+       
        
       </Switch>
     </Router>

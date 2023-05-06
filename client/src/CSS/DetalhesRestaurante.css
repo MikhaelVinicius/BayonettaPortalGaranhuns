@@ -1,0 +1,34 @@
+.restaurante-detalhes {
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+  }
+  
+  .imagem {
+    width: 50%;
+    padding-right: 20px;
+  }
+  
+  .imagem img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .info {
+    width: 50%;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    margin-top: 0;
+  }
+  
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .telefone {
+    font-weight: bold;
+  }
+  
