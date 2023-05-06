@@ -1,0 +1,41 @@
+.detalhes-hotel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .detalhes-hotel header {
+    width: 100%;
+    background-color: #f5f5f5;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .detalhes-hotel h1 {
+    font-size: 36px;
+    margin: 20px;
+  }
+  
+  .detalhes-hotel .imagem {
+    width: 50%;
+    margin: 20px;
+  }
+  
+  .detalhes-hotel .imagem img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .detalhes-hotel .info {
+    width: 50%;
+    margin: 20px;
+  }
+  
+  .detalhes-hotel p {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  

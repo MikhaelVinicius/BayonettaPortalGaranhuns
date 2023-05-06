@@ -8,6 +8,7 @@ import Detalhes from './pages/DetalhesAtividade';
 import HotelList from './pages/HotelList';
 import RestauranteList from './pages/RestauranteList';
 import PontoTuristicoDetalhes from './pages/DetalhesPontoTuristisco';
+import HotelDetalhes from './pages/DetalhesHotel';
 
 function App() {
   return (
@@ -19,8 +20,8 @@ function App() {
         <Route path="/pontos-turisticos/:id" component={PontoTuristicoDetalhes} />
         <Route exact path="/atividades" component={AtividadeList} />
         <Route path="/atividades/:id" component={Detalhes} />
-        <Route path="/hoteis" component={HotelList} />
-        <Route path="/hoteis/:id" component={HotelList} />
+        <Route exact path="/hoteis" component={HotelList} />
+        <Route path="/hoteis/:id" component={HotelDetalhes} />
         <Route path="/restaurantes" component={RestauranteList} />
        
       </Switch>
