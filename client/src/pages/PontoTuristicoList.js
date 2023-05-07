@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../CSS/PontoTuristicoList.css';
+import '../CSS/List.css';
 import Nav from '../components/Nav';
 import { Link } from 'react-router-dom';
 

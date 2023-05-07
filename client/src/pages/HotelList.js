@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../CSS/HotelList.css';
+import '../CSS/List.css';
 import { Link } from 'react-router-dom';
 import Nav from '../components/Nav'; 
 
