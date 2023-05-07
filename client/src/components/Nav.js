@@ -15,6 +15,7 @@ function Nav() {
         <li><Link to="/hoteis">Hospedagens</Link></li>
         <li><Link to="/restaurantes">Restaurantes</Link></li>
         <li><Link to="/atividades">Atividades</Link></li>
+        <li><Link to="/eventos">Eventos</Link></li>
       </ul>
     </nav>
   );

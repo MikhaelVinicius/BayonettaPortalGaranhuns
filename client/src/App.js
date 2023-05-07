@@ -10,6 +10,7 @@ import RestauranteList from './pages/RestauranteList';
 import PontoTuristicoDetalhes from './pages/DetalhesPontoTuristisco';
 import HotelDetalhes from './pages/DetalhesHotel';
 import RestauranteDetalhes from './pages/DetalhesRestaurante';
+import EventosList from './pages/EventosList';
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
         <Route path="/hoteis/:id" component={HotelDetalhes} />
         <Route exact path="/restaurantes" component={RestauranteList} />
         <Route path="/restaurantes/:id" component={RestauranteDetalhes} />
-       
+        <Route exact path="/eventos" component={EventosList} />
        
       </Switch>
     </Router>
