@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, Column, Integer, String, Text,Float, TIMES
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from database.models import db, PontoTuristico
+import datetime
 
 engine = create_engine('mysql://Bayonetta:$Mika2023@127.0.0.1/bayo_portal_garanhuns_bd')
 Session = sessionmaker(bind=engine)
@@ -57,6 +58,18 @@ class Restaurante(db):
     estado = Column(String(255), nullable=False)
     telefone = Column(String(255), nullable=False)
     imagem_url = Column(String(255), nullable=False)
+    
+    
+class Evento(db):
+    __tablename__ = 'eventos'
+    
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nome = Column(String(255), nullable=False)
+    descricao = Column(Text)
+  
+    local = Column(String(255), nullable=False)
+    imagem_url = Column(String(255), nullable=False)
+       
 
 
 class Comentarios(db):

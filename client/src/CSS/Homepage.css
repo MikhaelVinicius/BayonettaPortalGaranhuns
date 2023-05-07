@@ -1,7 +1,8 @@
 /* Definindo o estilo global da página */
 body {
     margin: 0;
-    padding: 0;
+    padding: 0px;
+    
     font-family: 'Roboto', sans-serif;
     background-color: #fff;
     color: #000;

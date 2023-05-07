@@ -1,3 +1,14 @@
+
+
+
+body {
+    margin: 0;
+    padding: 0px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #fff;
+    color: #000;
+}
+
 .pt-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -7,6 +18,7 @@
     margin: 0 auto;
     margin-top: 60px;
     margin-right: 80px;
+  
     }
   
   .pt-card {

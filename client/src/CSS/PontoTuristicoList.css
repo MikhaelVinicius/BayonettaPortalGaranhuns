@@ -10,8 +10,8 @@
   }
 
 .pt-card {
-  background-color: #fff;
-  border: 1px solid #ccc;
+  background-color: #8f2929;
+  border: 1px solid #0e3320;
   border-radius: 5px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -71,4 +71,5 @@
     grid-template-columns: 1fr;
   }
 }
+
 

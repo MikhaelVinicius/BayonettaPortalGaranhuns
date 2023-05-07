@@ -9,7 +9,7 @@ from flask_cors import CORS
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 
-
+import datetime
 
 
 
@@ -119,6 +119,26 @@ class Restaurante(db.Model):
             'imagem_url': self.imagem_url
         }
 
+
+class Evento(db.Model):
+    __tablename__ = 'eventos'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome = db.Column(db.String(255), nullable=False)
+    descricao = db.Column(db.Text)
+   
+    local = db.Column(db.String(255), nullable=False)
+    imagem_url = db.Column(db.String(255), nullable=False)
+
+    def to_dict(self):
+       return {
+        'id': self.id,
+        'nome': self.nome,
+        'descricao': self.descricao,
+   
+        'local': self.local,
+        'imagem_url': self.imagem_url
+    }
 
 
 class Comentarios(db.Model):
@@ -568,6 +588,109 @@ def editar_restaurante(id):
     return jsonify({'mensagem': 'Restaurante atualizado com sucesso!'})
 
 
+######## Eventos
+
+@app.route('/api/eventos')
+def listar_eventos_json():
+    eventos = Evento.query.all()
+    return jsonify([eventos.to_dict() for eventos in eventos])
+
+def validar_dados_evento(dados):
+    erros = {}
+
+    # validar nome
+    if not dados.get('nome'):
+        erros['nome'] = 'Campo obrigatório.'
+
+    # validar data
+    if not dados.get('data'):
+        erros['data'] = 'Campo obrigatório.'
+
+    # validar local
+    if not dados.get('local'):
+        erros['local'] = 'Campo obrigatório.'
+    
+    if not dados.get('descricao'):
+        erros['descricao'] = 'Campo obrigatório.'
+
+    if not dados.get('imagem_url'):
+        erros['imagem_url'] = 'Campo obrigatório.'
+
+    return erros
+
+@app.route('/api/eventos/<int:id>', methods=['GET'])
+def detalhes_evento(id):
+    eventos = Evento.query.get(id)
+
+    if not eventos:
+        return jsonify({'mensagem': 'Evento não encontrado!'}), 404
+
+    return jsonify(eventos.to_dict())
+
+@app.route('/api/eventos/novo', methods=['POST'])
+@login_required
+def adicionar_evento():
+    dados_evento = request.json
+
+    # validar dados do evento
+    erros = validar_dados_evento(dados_evento)
+    if erros:
+        return jsonify({'erros': erros}), 400
+
+    novo_evento = Evento(
+        nome=dados_evento['nome'],
+        descricao=dados_evento['descricao'],
+        data=datetime.strptime(dados_evento['data'], '%Y-%m-%dT%H:%M:%S.%fZ'),
+        local=dados_evento['local'],
+        imagem_url=dados_evento['imagem_url']
+    )
+
+    db.session.add(novo_evento)
+    db.session.commit()
+
+    return jsonify({'mensagem': 'Evento adicionado com sucesso!'})
+
+@app.route('/api/eventos/<int:id>', methods=['DELETE'])
+@login_required
+def excluir_evento(id):
+    eventos = Evento.query.get(id)
+
+    if not eventos:
+        return jsonify({'mensagem': 'Evento não encontrado!'}), 404
+
+    db.session.delete(eventos)
+    db.session.commit()
+
+    return jsonify({'mensagem': 'Evento excluído com sucesso!'})
+
+
+@app.route('/api/eventos/<int:id>', methods=['PUT'])
+@login_required
+def editar_evento(id):
+    eventos = Evento.query.get(id)
+
+    if not eventos:
+        return jsonify({'mensagem': 'Evento não encontrado!'}), 404
+
+    dados_evento = request.json
+
+    # validar dados do evento
+    erros = validar_dados_evento(dados_evento)
+    if erros:
+        return jsonify({'erros': erros}), 400
+
+    eventos.nome = dados_evento['nome']
+    eventos.descricao = dados_evento['descricao']
+    eventos.data = datetime.strptime(dados_evento['data'], '%Y-%m-%dT%H:%M:%S.%fZ')
+    eventos.local = dados_evento['local']
+    eventos.imagem_url = dados_evento['imagem_url']
+
+    db.session.commit()
+
+    return jsonify({'mensagem': 'Evento atualizado com sucesso!'})
+
+
+
 
 #####################RotasTemplate############################
 
@@ -621,6 +744,7 @@ admin.add_view(ModelView(PontoTuristico, db.session))
 admin.add_view(ModelView(Atividade, db.session))
 admin.add_view(ModelView(Hotel, db.session))
 admin.add_view(ModelView(Restaurante, db.session))
+admin.add_view(ModelView(Evento, db.session))
 
 if __name__ == '__main__':
     app.config['DEBUG'] = True

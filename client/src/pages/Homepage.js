@@ -7,28 +7,15 @@ import Nav from '../components/Nav';
 
 function Homepage() {
   const pontoTuristicoListRef = useRef(null);
-  const atividadeListRef = useRef(null);
-  const hotelListRef = useRef(null);
-  const restauranteListRef = useRef(null);
+ 
 
   const scrollToPontoTuristicoList = () => {
     pontoTuristicoListRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const scrollToAtividadeList = () => {
-    atividadeListRef.current.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const scrollToHotelList = () => {
-    hotelListRef.current.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const scrollToRestauranteList = () => {
-    restauranteListRef.current.scrollIntoView({ behavior: 'smooth' });
-  };
 
   return (
-    <div className="homepage">
+    <div>
     <header>
       <Nav /> 
     </header>

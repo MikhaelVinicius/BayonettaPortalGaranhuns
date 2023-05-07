@@ -27,9 +27,10 @@ function AtividadeList() {
 
   return (
     <div className="pt-list">
-       <header>
+    <header>
       <Nav /> 
     </header>
+    
       <h1>Atividades</h1>
       {atividades.map(atividade => (
         <div className="pt-card" key={atividade.id}>
